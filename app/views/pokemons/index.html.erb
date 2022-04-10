@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Pokemons</h1>
+
+<% if @pokemons.present? %>
+  <%= button_to 'Destroy all', pokemons_destroy_all_path, method: 'delete' %>
+<% else %>
+  <%= button_to 'Create all', pokemons_create_all_path %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pokedex ID</th>
+      <th>Identifier</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Species ID</th>
+      <th>Base experience</th>
+      <th>Order</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pokemons.each do |pokemon| %>
+      <tr>
+        <td><%= pokemon.pokedex_id %></td>
+        <td><%= pokemon.identifier %></td>
+        <td><%= pokemon.height %></td>
+        <td><%= pokemon.weight %></td>
+        <td><%= pokemon.species_id %></td>
+        <td><%= pokemon.base_experience %></td>
+        <td><%= pokemon.order %></td>
+        <td><%= pokemon.default %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
