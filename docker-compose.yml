@@ -17,6 +17,7 @@ services:
     ports:
       - '3000:3000'
     environment:
+      REDIS_URL: redis://redis:6379
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
       WEBPACKER_DEV_SERVER_HOST: webpacker
     depends_on:
@@ -39,6 +40,23 @@ services:
       POSTGRES_INITDB_ARGS: '--encoding=UTF-8 --locale=C.UTF-8'
       POSTGRES_PASSWORD: password
       TZ: Asia/Tokyo
+
+  redis:
+    image: redis:6.2.6-alpine
+    ports:
+      - '6379:6379'
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/myapp:cached
+      - bundle_cache:/usr/local/bundle:cached
+    environment:
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - db
+      - redis
 
   webpacker:
     build: .
