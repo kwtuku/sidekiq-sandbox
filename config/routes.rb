@@ -1,3 +1,9 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root 'pokemons#index'
+  resources :pokemons, only: %i[index]
+  post 'pokemons/create_all', to: 'pokemons#create_all'
+  delete 'pokemons/destroy_all', to: 'pokemons#destroy_all'
+  mount Sidekiq::Web, at: '/sidekiq'
 end
